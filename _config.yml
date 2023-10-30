@@ -1,3 +1,4 @@
-theme: jekyll-theme-minimal
+#theme: jekyll-theme-minimal
+theme: minima
 title: Russ's Blog
 description: Do I create the code, or does the code create me?

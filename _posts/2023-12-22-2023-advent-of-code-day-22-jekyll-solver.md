@@ -23,6 +23,55 @@ Create a new markdown file (like [this one](https://github.com/Russ741/russ741.g
 
 Optional: Run a Jekyll server locally to preview it: ```bundle exec jekyll serve --livereload```
 
+# Add a HTML canvas holder and canvas to the post
+References: MDN - [Basic usage of canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_usage#a_simple_example) and *Jekyll with Three.js* [^three-js-jekyll]
+
+I've decided to create the ```canvas``` element dynamically in JS rather than with HTML to mimic adding the [renderer's domElement](https://threejs.org/docs/#api/en/renderers/WebGLRenderer.domElement).
+
+#### Code
+
+```html
+<div id="canvas-holder">
+</div>
+
+<script>
+    canvasHolder = document.getElementById('canvas-holder');
+    canvas = document.createElement('canvas');
+
+    /* Add a border to visualize where the canvas is */
+    canvas.style.border = "1px solid black";
+
+    /* Draw something in the canvas */
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgb(200, 0, 0)";
+    ctx.fillRect(10, 10, 100, 100);
+
+    /* Insert the canvas into the document */
+    canvasHolder.appendChild(canvas);
+</script>
+```
+
+#### Demo
+
+<div id="canvas-holder">
+</div>
+
+<script>
+    canvasHolder = document.getElementById('canvas-holder');
+    canvas = document.createElement('canvas');
+
+    /* Add a border to visualize where the canvas is */
+    canvas.style.border = "1px solid black";
+
+    /* Draw something to the canvas */
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgb(200, 0, 0)";
+    ctx.fillRect(10, 10, 100, 100);
+
+    /* Insert the canvas into the document */
+    canvasHolder.appendChild(canvas);
+</script>
+
 # Footnotes and Acknowledgements
 [^le-carre]:
     With apologies to [John Le Carré](https://en.wikipedia.org/wiki/Tinker_Tailor_Soldier_Spy)
@@ -39,3 +88,6 @@ Optional: Run a Jekyll server locally to preview it: ```bundle exec jekyll serve
 
 [^how-to-page-path]:
     Thank you to [mb21](https://stackoverflow.com/users/214446/mb21) for [mentioning](https://stackoverflow.com/a/13300410) the page.path [page variable](https://jekyllrb.com/docs/variables/#page-variables) that I used in the GitHub markdown link.
+
+[^three-js-jekyll]:
+    Thank you to Long Qian's [Jekyll with Three.js](https://longqian.me/2017/02/06/jekyll-threejs/) (source code [here](https://github.com/qian256/qian256.github.io/blob/master/_posts/2017-02-06-jekyll-threejs.md?plain=1)) for demonstrating how to embed three.js in a Jekyll post.

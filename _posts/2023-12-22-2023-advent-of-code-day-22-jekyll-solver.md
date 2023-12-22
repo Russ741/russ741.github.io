@@ -19,7 +19,7 @@ See [Notes On Jekyll And GitHub Pages]({% post_url 2023-12-14-notes-on-jekyll-an
 
 # Create a new post
 
-Create a new markdown file (like [this one](https://github.com/Russ741/russ741.github.io/blob/main/{{page.path}}?plain=1)) under the ```_posts``` directory.
+Create a new markdown file (like [this one](https://github.com/Russ741/russ741.github.io/blob/main/{{page.path}}?plain=1) [^how-to-page-path]) under the ```_posts``` directory.
 
 Optional: Run a Jekyll server locally to preview it: ```bundle exec jekyll serve --livereload```
 
@@ -37,5 +37,5 @@ Optional: Run a Jekyll server locally to preview it: ```bundle exec jekyll serve
         * put the footnote tag ```[^how-to-footnote]:``` on its own line and
         * indent the contents of the footnote (by however many spaces the rest of the file uses; I use four)
 
-[^how-to-page-path]
+[^how-to-page-path]:
     Thank you to [mb21](https://stackoverflow.com/users/214446/mb21) for [mentioning](https://stackoverflow.com/a/13300410) the page.path [page variable](https://jekyllrb.com/docs/variables/#page-variables) that I used in the GitHub markdown link.

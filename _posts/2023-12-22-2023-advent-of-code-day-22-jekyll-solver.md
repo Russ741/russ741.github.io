@@ -96,22 +96,25 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
     import * as THREE from 'three';
     canvasHolder = document.getElementById('canvas-holder2');
     canvasHolder.style.border = "1px solid black";
+    /* TODO: Resize the whole canvas when the window's resized. */
+    const width = canvasHolder.clientWidth;
+    const height = width;
 
     const scene = new THREE.Scene();
     const prism = new THREE.Mesh(
-        new THREE.BoxGeometry(1, 2, 3),
+        new THREE.BoxGeometry(1, 1, 1),
         new THREE.MeshNormalMaterial());
     scene.add(prism);
 
-    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    const camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
     camera.position.x = 5;
     camera.position.y = 5;
     camera.position.z = 5;
     camera.lookAt(0,0,0);
 
     const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(width, width);
     renderer.render(scene, camera);
-    // renderer.setSize( window.innerWidth, window.innerHeight );
     canvasHolder.appendChild(renderer.domElement);
 </script>
 

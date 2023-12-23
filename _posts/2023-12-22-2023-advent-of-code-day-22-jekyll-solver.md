@@ -23,7 +23,7 @@ Create a new markdown file (like [this one](https://github.com/Russ741/russ741.g
 
 Optional: Run a Jekyll server locally to preview it: ```bundle exec jekyll serve --livereload```
 
-# Add a HTML canvas holder and canvas to the post
+# Add a HTML canvas holder, a canvas, and draw something
 References: MDN - [Basic usage of canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_usage#a_simple_example) and *Jekyll with Three.js* [^three-js-jekyll]
 
 I've decided to create the ```canvas``` element dynamically in JS rather than with HTML to mimic adding the [renderer's domElement](https://threejs.org/docs/#api/en/renderers/WebGLRenderer.domElement).
@@ -53,11 +53,11 @@ I've decided to create the ```canvas``` element dynamically in JS rather than wi
 
 #### Demo
 
-<div id="canvas-holder">
+<div id="canvas-holder1">
 </div>
 
 <script>
-    canvasHolder = document.getElementById('canvas-holder');
+    canvasHolder = document.getElementById('canvas-holder1');
     canvas = document.createElement('canvas');
 
     /* Add a border to visualize where the canvas is */
@@ -70,6 +70,49 @@ I've decided to create the ```canvas``` element dynamically in JS rather than wi
 
     /* Insert the canvas into the document */
     canvasHolder.appendChild(canvas);
+</script>
+
+# Load three.js, insert its canvas, and draw something
+References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import), three.js [Creating a scene](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
+
+#### Code
+
+```html
+```
+
+#### Demo
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three/build/three.module.js"
+        }
+    }
+</script>
+
+<div id="canvas-holder2">
+</div>
+
+<script type="module">
+    import * as THREE from 'three';
+    canvasHolder = document.getElementById('canvas-holder2');
+    canvasHolder.style.border = "1px solid black";
+
+    const scene = new THREE.Scene();
+    const prism = new THREE.Mesh(
+        new THREE.BoxGeometry(1, 2, 3),
+        new THREE.MeshNormalMaterial());
+    scene.add(prism);
+
+    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    camera.position.x = 5;
+    camera.position.y = 5;
+    camera.position.z = 5;
+    camera.lookAt(0,0,0);
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.render(scene, camera);
+    // renderer.setSize( window.innerWidth, window.innerHeight );
+    canvasHolder.appendChild(renderer.domElement);
 </script>
 
 # Footnotes and Acknowledgements

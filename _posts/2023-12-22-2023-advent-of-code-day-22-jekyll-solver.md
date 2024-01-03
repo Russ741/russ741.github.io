@@ -91,9 +91,53 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 <div id="canvas-holder2">
 </div>
+<br />
+<textarea id="puzzle-input" cols="80" rows="10">
+1,0,1~1,2,1
+0,0,2~2,0,2
+0,2,3~2,2,3
+0,0,4~0,2,4
+2,0,5~2,2,5
+0,1,6~2,1,6
+1,1,8~1,1,9
+</textarea>
 
 <script type="module">
     import * as THREE from 'three';
+
+    class Brick {
+        xyzL;
+        xyzH;
+
+        constructor(inputLine) {
+            const [x1, y1, z1, x2, y2, z2] = inputLine.match(/\d+/g).map((val) => parseInt(val));
+            this.xyzL = new THREE.Vector3(x1, y1, z1);
+            this.xyzH = new THREE.Vector3(x2, y2, z2);
+            if (z1 > z2) {
+                [this.xyzL, this.xyzH] = [this.xyzH, this.xyzL];
+            }
+        }
+
+        get l() {
+            return this.xyzH.x - this.xyzL.x + 1;
+        }
+
+        get w() {
+            return this.xyzH.y - this.xyzL.y + 1;
+        }
+
+        get h() {
+            return this.xyzH.z - this.xyzL.z + 1;
+        }
+    }
+
+    function loadInput() {
+        const input = document.getElementById('puzzle-input').value;
+        const inputLines = input.split('\n').filter((line) => line.length > 0);
+        const bricks = inputLines.map((inputLine) => new Brick(inputLine));
+        return bricks;
+    }
+
     canvasHolder = document.getElementById('canvas-holder2');
     canvasHolder.style.border = "1px solid black";
     /* TODO: Resize the whole canvas when the window's resized. */
@@ -101,10 +145,14 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
     const height = width;
 
     const scene = new THREE.Scene();
-    const prism = new THREE.Mesh(
-        new THREE.BoxGeometry(1, 1, 1),
-        new THREE.MeshNormalMaterial());
-    scene.add(prism);
+    const bricks = loadInput();
+    for (const brick of bricks) {
+        const prism = new THREE.Mesh(
+            new THREE.BoxGeometry(brick.l, brick.w, brick.h),
+            new THREE.MeshNormalMaterial());
+        prism.position.copy(brick.xyzL);
+        scene.add(prism);
+    }
 
     const camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
     camera.position.x = 5;

@@ -138,6 +138,16 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
         return bricks;
     }
 
+    function getLine(p1, p2, color) {
+        const material = new THREE.LineBasicMaterial({color});
+        const geometry = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+        return new THREE.Line(geometry, material);
+    }
+
+    function v3(x, y, z) {
+        return new THREE.Vector3(x, y, z);
+    }
+
     canvasHolder = document.getElementById('canvas-holder2');
     canvasHolder.style.border = "1px solid black";
     /* TODO: Resize the whole canvas when the window's resized. */
@@ -153,6 +163,11 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
         prism.position.copy(brick.xyzL);
         scene.add(prism);
     }
+
+    // Draw x, y and z axes
+    scene.add(getLine(v3(0, 0, 0), v3(10, 0, 0), 0xFF0000));
+    scene.add(getLine(v3(0, 0, 0), v3(0, 10, 0), 0x00FF00));
+    scene.add(getLine(v3(0, 0, 0), v3(0, 0, 10), 0x0000FF));
 
     const camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
     camera.position.x = 5;

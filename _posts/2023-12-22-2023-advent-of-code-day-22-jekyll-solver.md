@@ -129,6 +129,10 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
         get h() {
             return this.xyzH.z - this.xyzL.z + 1;
         }
+
+        get middle() {
+            return v3(1, 1, 1).add(this.xyzH).add(this.xyzL).divideScalar(2);
+        }
     }
 
     function loadInput() {
@@ -160,11 +164,10 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
         const prism = new THREE.Mesh(
             new THREE.BoxGeometry(brick.l, brick.w, brick.h),
             new THREE.MeshNormalMaterial());
-        prism.position.copy(brick.xyzL);
+        prism.position.copy(brick.middle);
         scene.add(prism);
     }
 
-    // Draw x, y and z axes
     scene.add(getLine(v3(0, 0, 0), v3(10, 0, 0), 0xFF0000));
     scene.add(getLine(v3(0, 0, 0), v3(0, 10, 0), 0x00FF00));
     scene.add(getLine(v3(0, 0, 0), v3(0, 0, 10), 0x0000FF));

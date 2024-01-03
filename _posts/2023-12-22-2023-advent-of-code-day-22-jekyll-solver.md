@@ -104,6 +104,7 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 <script type="module">
     import * as THREE from 'three';
+    const max = Math.max;
 
     class Brick {
         xyzL;
@@ -160,17 +161,34 @@ References: MDN [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
     const scene = new THREE.Scene();
     const bricks = loadInput();
+
+    const minV = v3(1000, 1000, 1000);
+    const maxV = v3(-1000, -1000, -1000);
+
     for (const brick of bricks) {
         const prism = new THREE.Mesh(
             new THREE.BoxGeometry(brick.l, brick.w, brick.h),
             new THREE.MeshNormalMaterial());
         prism.position.copy(brick.middle);
         scene.add(prism);
+
+        minV.min(brick.xyzL);
+        maxV.max(brick.xyzH);
     }
 
     scene.add(getLine(v3(0, 0, 0), v3(10, 0, 0), 0xFF0000));
     scene.add(getLine(v3(0, 0, 0), v3(0, 10, 0), 0x00FF00));
     scene.add(getLine(v3(0, 0, 0), v3(0, 0, 10), 0x0000FF));
+
+    const pWidth = maxV.x - minV.x + 1;
+    const pDepth = maxV.y - minV.y + 1;
+    const maxWD = max(pWidth, pDepth);
+    const gridSize = maxWD + 2;
+    const grid = new THREE.GridHelper(gridSize, gridSize);
+    grid.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2);
+    // NOTE: This won't work very well if minX and minY aren't 0.
+    grid.position.set(gridSize / 2 - 1, gridSize / 2 - 1, -0.001);
+    scene.add(grid);
 
     const camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
     camera.position.x = 5;
